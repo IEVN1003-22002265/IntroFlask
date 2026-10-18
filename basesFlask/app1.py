@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import math
 
 
  
@@ -30,21 +31,27 @@ def operasbas():
 
     return render_template('operabas.html', n1=n1, n2=n2, res=res)
 
-@app.route("/distancia")
+@app.route("/distancia", methods=("GET", "POST"))
 def distancia():
-    x1=0
-    y1=0
-    x2=0
-    y2=0
-    res=0
-    dx=0
-    dy=0
+    x1 = 0
+    y1 = 0
+    x2 = 0
+    y2 = 0
+    res = 0
 
-    dx = x2-x2
-    dy = y2-y2
+    if request.method == "POST":
+        x1 = request.form.get('x1')
+        y1 = request.form.get('y1')
+        x2 = request.form.get('x2')
+        y2 = request.form.get('y2')
 
+        dx = float(x2) - float(x1)
+        dy = float(y2) - float(y1)
 
-    return render_template('distancia.html')
+        total = (dx * dx) + (dy * dy)
+        res = math.sqrt(total)
+
+    return render_template('distancia.html', x1=x1, y1=y1, x2=x2, y2=y2, res=res)
 
 @app.route("/hola")
 def hola():
